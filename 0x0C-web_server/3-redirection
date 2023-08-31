@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Bash script to install nginx on an ubuntu system
+
+sudo apt-get update -y
+
+sudo apt-get install nginx -y
+
+
+
+echo "Hello World!" | sudo tee /var/www/html/redirect.html > /dev/null
+
+N_RUL='\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.youtube.com/@youngkingajay;\n\t}\n'
+
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
+
+sudo sed -i "45i $N_RUL" /etc/nginx/sites-available/default
+
+sudo service nginx restart
