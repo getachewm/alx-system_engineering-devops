@@ -1,9 +1,0 @@
-# The contents of this file pertain to a system-wide config file for an SSH client
-# Users have the ability to modify the values in this file, as it serves as a source of default settings
-# Within individual user config files
-
-
-Host *
-	PasswordAuthentication no
-#   	HostbasedAuthentication no
-    	IdentityFile ~/.ssh/school
