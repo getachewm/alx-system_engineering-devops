@@ -1,18 +1,32 @@
-#!/usr/bin/env bash
-# using puppet to make changes in our config file
+#!/usr/bin/env puppet
 
-file { 'etc/ssh/ssh_config':
-	ensure => present,
+# Ensure SSH client configuration is managed
+
+file { '/etc/ssh/ssh_config':
+  ensure  => present,
+  owner   => 'root',
+  group   => 'root',
+  mode    => '0644',
 }
 
-file line { 'Turn off password auth':
- path	=> '/etc/ssh/ssh_config',
- line	=> 'PasswordAuthentication no',
- match	=> '^#PasswordAuthentication',
+# Configure PasswordAuthentication
+file_line { 'Turn off password auth':
+  path   => '/etc/ssh/ssh_config',
+  line   => 'PasswordAuthentication no',
+  match  => '^#?PasswordAuthentication',
 }
 
-file line { 'Declare identity file':
- path    => '/etc/ssh/ssh_config',
- line    => 'IdentityFile ~/.ssh/school',
- match   => '^#IdentityFile',
+# Configure IdentityFile
+file_line { 'Declare identity file':
+  path   => '/etc/ssh/ssh_config',
+  line   => 'IdentityFile ~/.ssh/school',
+  match  => '^#?IdentityFile',
+}
+
+# Ensure proper permissions for the private key
+file { '/home/user/.ssh/school':
+  ensure  => present,
+  owner   => 'user',
+  group   => 'user',
+  mode    => '0600',
 }
